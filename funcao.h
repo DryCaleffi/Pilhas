@@ -112,23 +112,72 @@ void limpaVetor(char v[][20], int tamanho)
         strcpy(v[i], "");
     }
 }
-// Função para pegar o operador
-char operadorRemovido;
-void ipopOperador(char Pilhaoperador[100][20], int *topooperador, char *operadorRemovdo) {
-    if (*topooperador >= 0) { // Verifica se a pilha não está vazia
-        strcpy(operadorRemovido, Pilhaoperador[*topooperador]); // Copia o operador do topo
-        (*topooperador)--; // Diminui o índice do topo, efetivamente removendo o operador
+//Função pop vec
+void popVec (char vec[][200], int *topovec, char *vecRemovido)
+{
+if (*topovec >= 0) { // Verifica se a pilha não está vazia
+        strcpy(vecRemovido, vec[*topovec]); // Copia o operador do topo
+        (*topovec)--; // Diminui o índice do topo, efetivamente removendo o operador
     } else {
-        strcpy(operadorRemovido, ""); // Se a pilha estiver vazia, retorna uma string vazia
+        strcpy(vecRemovido, ""); // Se a pilha estiver vazia, retorna uma string vazia
+    }
+}
+void popOperador(char Pilhaoperador[][20], int *topooperador, char *operadorRemovido) {
+    if (*topooperador >= 0) {
+        strcpy(operadorRemovido, Pilhaoperador[*topooperador]);
+        (*topooperador)--;
+    } else {
+        strcpy(operadorRemovido, "");
     }
 }
 
-//Função para pegar valores
-void popValor(char Pilhavalor[100][20], int *topovalor, char *valorRemovido) {
-    if (*topovalor >= 0) { // Verifica se a pilha não está vazia
-        strcpy(valorRemovido, Pilhavalor[*topovalor]); // Copia o valor do topo
-        (*topovalor)--; // Diminui o índice do topo, efetivamente removendo o valor
-    } else {
-        strcpy(valorRemovido, ""); // Se a pilha estiver vazia, retorna uma string vazia
+void popValor(char Pilhavalor[][20], int *topovalor, char valorRemovido[2][20]) {
+    for (int i = 0; i < 2; i++) {
+        if (*topovalor >= 0) {
+            strcpy(valorRemovido[i], Pilhavalor[*topovalor]);
+            (*topovalor)--;
+        } else {
+            strcpy(valorRemovido[i], "");
+        }
     }
 }
+//Função para pegar os valor removidos e faz a equação entre eles 
+void popValorEquacao(char Pilhavalor[100][20], int *topovalor, char Pilhaoperador[100][20], int *topooperador) {
+    char valorRemovido[2][20];
+    char operadorRemovido[20];
+
+    popOperador(Pilhaoperador, topooperador, operadorRemovido);
+    popValor(Pilhavalor,topovalor, valorRemovido);
+
+    printf("Valores: %s, %s\n", valorRemovido[0], valorRemovido[1]);
+    printf("Operador: %s\n", operadorRemovido);
+}
+
+
+int tamanhoPreenchido(char vec[][20], int tamanhoTotal) {
+    int tamanho = 0;
+    for (int i = 0; i < tamanhoTotal; i++) {
+        if (strcmp(vec[i], "") != 0) {
+            tamanho++;
+        } else {
+            break;
+        }
+    }
+    return tamanho;
+}
+
+void pushOperador(char Pilhaoperador[][20], int *topooperador, const char *novoOperador) {
+    // Incrementa o topo e insere o novo operador na pilha
+    (*topooperador)++;
+    strcpy(Pilhaoperador[*topooperador], novoOperador);
+}
+
+void pushValor(char Pilhavalor[][20], int *topovalor, const char novoValor[20]) {
+    // Incrementa o topo e insere o novo valor na pilha
+    (*topovalor)++;
+    strcpy(Pilhavalor[*topovalor], novoValor);
+}
+void intToStr(int num, char *str) {
+    sprintf(str, "%d", num);
+}
+
